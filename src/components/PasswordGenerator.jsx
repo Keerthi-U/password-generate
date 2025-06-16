@@ -3,7 +3,9 @@ import PasswordOption from "./PasswordOption";
 
 import generatePassword from "../utilis/Passwordutils";
 import PasswordOutput from "./PasswordOutput";
-
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { toast } from 'react-toastify';
 export default function PasswordGenerator(){
 const [length, setLength] = useState(12);
 const [includeUpper , setincludeUpper] = useState(true);
@@ -23,7 +25,8 @@ function handleGenerate () {
 
     });
     if(!newpass) {
-            alert('Select at least one character type!');
+          
+             toast.error('Select at least one character type!.');
             return
     }
 setPassword(newpass)
@@ -31,12 +34,27 @@ setPassword(newpass)
 
 const copyToClipboard =() => {
     navigator.clipboard.writeText(password)
+   .then(() => {
+      toast.success('Password copied successfully!');
+    })
+    .catch(() => {
+      toast.error('Failed to copy password.');
+    });
+
 }
 
 
 return (
   
     <div className="password-generator-wrapper">
+         <ToastContainer  position="top-right"
+  autoClose={3000}
+  hideProgressBar={false}
+  newestOnTop={false}
+  closeOnClick
+  pauseOnFocusLoss
+  draggable
+  pauseOnHover/>
 <h3>PasswordGenerator</h3>
    <PasswordOption length = {length}  setLength={setLength}
    includeUpper ={includeUpper}  setincludeUpper={setincludeUpper}
